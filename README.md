@@ -1,8 +1,9 @@
-####GORM Time
+#### GORM Time
 
+[![codecov](https://codecov.io/gh/codecov/nikonm/gorm-pg-time/branch/master/graph/badge.svg)](https://codecov.io/gh/codecov/example-go)
 [![Build Status](https://travis-ci.org/nikonm/gorm-pg-time.svg?branch=master)](https://travis-ci.org/nikonm/gorm-pg-time)
 
-#####Time
+##### Time
 
 ````
 import "github.com/nikonm/gorm-pg-time"
@@ -21,8 +22,11 @@ DB.Create(&md)
 // INSERT INTO `models` (`time`) VALUES ("13:07:23")
 
 ````
-#####TimeTZ
+
+##### TimeTZ
+
 Timezone read from time.Time object and set to timetz field in postgres 
+
 ````
 import "github.com/nikonm/gorm-pg-time"
 
