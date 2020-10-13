@@ -1,5 +1,7 @@
 ####GORM Time
+
 [![Build Status](https://travis-ci.org/nikonm/gorm-pg-time.svg?branch=master)](https://travis-ci.org/nikonm/gorm-pg-time)
+
 #####Time
 
 ````
