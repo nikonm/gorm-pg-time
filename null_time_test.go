@@ -49,3 +49,24 @@ func TestNullTime_Value(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, false, m.Time.Valid)
 }
+
+func TestNullTime_Scan(t *testing.T) {
+	type Model struct {
+		ID   uint
+		Name string
+		Time NullTime
+	}
+
+	db := (&Storage{}).Init()
+	tms := "14:23:56"
+	db.Mock.ExpectQuery(`SELECT .*`).
+		WillReturnRows(
+			sqlmock.NewRows([]string{"id", "name", "time"}).
+				AddRow(1, "test", "14:23:56"))
+
+	m := &Model{}
+	err := db.Db().First(m).Error
+	require.NoError(t, err)
+	require.Equal(t, true, m.Time.Valid)
+	require.Equal(t, tms, m.Time.Time.Format("15:04:05"))
+}

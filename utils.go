@@ -10,7 +10,7 @@ import (
 func TimeToLocation(tz string) (*time.Location, error) {
 	sign := "+"
 	tm := strings.TrimPrefix(tz, "+")
-	if strings.HasPrefix("-", tz) {
+	if strings.HasPrefix(tz, "-") {
 		sign = "-"
 		tm = strings.TrimPrefix(tz, "-")
 	}

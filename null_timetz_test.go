@@ -97,3 +97,51 @@ func TestNullTimeTZ_Value(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, false, m.Time.Valid)
 }
+
+func TestNullTimeTZ_Scan(t *testing.T) {
+	type Model struct {
+		ID   uint
+		Name string
+		Time NullTimeTZ
+	}
+
+	tms := "15:42:31"
+	tz := "+03:00"
+	db := (&Storage{}).Init()
+	db.Mock.ExpectQuery(`SELECT .*`).
+		WillReturnRows(
+			sqlmock.NewRows([]string{"id", "name", "time"}).
+				AddRow(1, "test", tms+tz))
+
+	m := &Model{}
+	err := db.Db().First(m).Error
+	require.NoError(t, err)
+	require.Equal(t, true, m.Time.Valid)
+	require.Equal(t, tms, m.Time.Time.Format("15:04:05"))
+	_, offset := m.Time.Time.Zone()
+	require.Equal(t, 3600*3, offset)
+}
+
+func TestNullTimeTZNegative_Scan(t *testing.T) {
+	type Model struct {
+		ID   uint
+		Name string
+		Time NullTimeTZ
+	}
+
+	tms := "15:42:31"
+	tz := "-03:00"
+	db := (&Storage{}).Init()
+	db.Mock.ExpectQuery(`SELECT .*`).
+		WillReturnRows(
+			sqlmock.NewRows([]string{"id", "name", "time"}).
+				AddRow(1, "test", tms+tz))
+
+	m := &Model{}
+	err := db.Db().First(m).Error
+	require.NoError(t, err)
+	require.Equal(t, true, m.Time.Valid)
+	require.Equal(t, tms, m.Time.Time.Format("15:04:05"))
+	_, offset := m.Time.Time.Zone()
+	require.Equal(t, -3600*3, offset)
+}

@@ -36,11 +36,7 @@ func (nt *NullTimeTZ) parsePGTime(val string) error {
 		if err != nil {
 			return err
 		}
-		nt.Time, err = time.ParseInLocation("15:04:05", nt.Time.Format("15:04:05"), loc)
-		if err != nil {
-			return err
-		}
-
+		nt.Time, _ = time.ParseInLocation("15:04:05", nt.Time.Format("15:04:05"), loc)
 	}
 	return nil
 }
