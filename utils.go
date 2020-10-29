@@ -14,7 +14,9 @@ func TimeToLocation(tz string) (*time.Location, error) {
 		sign = "-"
 		tm = strings.TrimPrefix(tz, "-")
 	}
-
+	if !strings.Contains(tm, ":") {
+		tm += ":00"
+	}
 	zn, err := time.Parse("15:04", tm)
 	if err != nil {
 		return nil, err

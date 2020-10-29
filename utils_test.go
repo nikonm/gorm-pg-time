@@ -18,7 +18,15 @@ func TestTimeToLocation(t *testing.T) {
 
 	loc, err = TimeToLocation("-01:02")
 	require.NoError(t, err)
-
 	_, offset = time.Now().In(loc).Zone()
 	require.Equal(t, -3720, offset)
+
+	loc, err = TimeToLocation("+2")
+	require.NoError(t, err)
+
+	loc, err = TimeToLocation("+02")
+	require.NoError(t, err)
+
+	_, offset = time.Now().In(loc).Zone()
+	require.Equal(t, 7200, offset)
 }
