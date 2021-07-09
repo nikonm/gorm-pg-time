@@ -12,6 +12,9 @@ type NullTime struct {
 
 func (nt *NullTime) Scan(value interface{}) error {
 	var err error
+	if value == nil {
+		return nil
+	}
 	nt.Time, err = time.Parse("15:04:05", value.(string))
 	nt.Valid = err == nil
 	return nil
